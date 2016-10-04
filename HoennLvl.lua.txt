@@ -1,0 +1,41 @@
+
+name = "Happiness For Dive: Mossdeep Water"
+author = "Sam"
+description = [[This Will train the pokemon in the first slot @Mossdeep water in order to get 255 Happiness]]
+
+function onPathAction()
+	if isPokemonUsable(1) then
+		if getMapName() == "Pokecenter Mossdeep City" then
+			moveToMap("Mossdeep City")
+		elseif getMapName() == "Mossdeep City" then
+			moveToMap("Route 127")
+		elseif getMapName() == "Route 127" then
+			moveToMap("Route 128")
+		elseif getMapName() == "Route 128" then
+			moveToWater()
+		end
+	else
+		if getMapName() == "Route 128" then
+			moveToMap("Route 127")
+		elseif getMapName() == "Route 127" then
+			moveToMap("Mossdeep City")
+		elseif getMapName() == "Mossdeep City" then
+			moveToMap("Pokecenter Mossdeep City")
+		elseif getMapName() == "Pokecenter Mossdeep City" then
+			usePokecenter()
+		end
+	end
+end
+
+function onBattleAction()
+	if isWildBattle() and isOpponentShiny() then
+		if useItem("Ultra Ball") or useItem("Great Ball") or useItem("Pokeball") then
+			return
+		end
+	end
+	if getActivePokemonNumber() == 1 then
+		return attack() or sendUsablePokemon() or run() or sendAnyPokemon()
+	else
+		return run() or attack() or sendUsablePokemon() or sendAnyPokemon()
+	end
+end
